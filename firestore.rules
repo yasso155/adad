@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Admin Helper
+    function isAdmin() {
+      return request.auth != null 
+        && request.auth.token.email.lower() == 'yseddig15@gmail.com' 
+        && request.auth.token.email_verified == true;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Exchange Rates
+    match /settings/rates {
+      allow read: if true;         // Rates are public for the dashboard
+      allow write: if isAdmin();   // Only admin can update
+    }
+
+    // Status Reports
+    match /reports/{reportId} {
+      // Users can list only approved reports, Admin can see all
+      allow list: if isAdmin() || (resource.data.approved == true);
+      allow get: if isSignedIn();
+      
+      // Anyone signed in can submit a report (approved defaults to false)
+      allow create: if isSignedIn() 
+        && request.resource.data.approved == false
+        && request.resource.data.keys().hasAll(['locationId', 'status', 'timestamp', 'approved'])
+        && request.resource.data.timestamp == request.time;
+      
+      // State transition: Only admin can approve or delete
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Notification Log
+    match /notifications/{notifId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // User Profiles
+    match /users/{userId} {
+      allow read: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+      allow write: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+    }
+  }
+}

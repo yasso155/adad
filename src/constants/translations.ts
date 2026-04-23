@@ -1,0 +1,52 @@
+export type Language = 'ar' | 'en';
+
+export const TRANSLATIONS = {
+  ar: {
+    settings: 'الإعدادات',
+    systemConfig: 'تكوين نظام عداد v4.0',
+    profile: 'الملف الشخصي',
+    verified: 'موثق',
+    standardTier: 'الفئة القياسية',
+    language: 'اللغة / Language',
+    regionalInterface: 'واجهة النظام الإقليمية',
+    notifications: 'الإشعارات',
+    criticalAlerts: 'تنبيهات حرجة',
+    viewMode: 'نمط العرض',
+    systemAesthetic: 'جمالية النظام',
+    privacy: 'بروتوكول الخصوصية',
+    dataHandling: 'معالجة البيانات',
+    support: 'الدعم الفني',
+    reportAnomalies: 'الإبلاغ عن المشاكل',
+    manifest: 'بيان النظام',
+    version: 'الإصدار 4.2.0-stable',
+    terminateSession: 'إنهاء الجلسة',
+    deauthenticate: 'تسجيل الخروج',
+    builtForSun: 'بني لأجل الشمس السودانية',
+    activeLang: 'العربية',
+    switchConfirm: 'تبديل اللغة'
+  },
+  en: {
+    settings: 'Settings',
+    systemConfig: 'ADAD_SYSTEM_CONFIG_v4.0',
+    profile: 'Profile',
+    verified: 'Verified',
+    standardTier: 'Standard Tier',
+    language: 'Language / اللغة',
+    regionalInterface: 'Regional Interface',
+    notifications: 'Notifications',
+    criticalAlerts: 'Critical Alerts',
+    viewMode: 'View Mode',
+    systemAesthetic: 'System Aesthetic',
+    privacy: 'Privacy Protocol',
+    dataHandling: 'Data Handling',
+    support: 'Technical Support',
+    reportAnomalies: 'Report Anomalies',
+    manifest: 'System Manifest',
+    version: 'version 4.2.0-stable',
+    terminateSession: 'Terminate Session',
+    deauthenticate: 'De-authenticate',
+    builtForSun: 'Built for the Sudanese sun',
+    activeLang: 'English',
+    switchConfirm: 'Switch Language'
+  }
+};

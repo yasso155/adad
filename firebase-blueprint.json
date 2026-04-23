@@ -1,0 +1,80 @@
+{
+  "entities": {
+    "exchangeRate": {
+      "title": "Exchange Rate",
+      "description": "Black market exchange rates for different currencies vs SDG",
+      "type": "object",
+      "properties": {
+        "usd": { "type": "number", "description": "USD to SDG rate" },
+        "usdChange": { "type": "number", "description": "USD percentage change" },
+        "sar": { "type": "number", "description": "SAR to SDG rate" },
+        "sarChange": { "type": "number", "description": "SAR percentage change" },
+        "aed": { "type": "number", "description": "AED to SDG rate" },
+        "aedChange": { "type": "number", "description": "AED percentage change" },
+        "eur": { "type": "number", "description": "EUR to SDG rate" },
+        "eurChange": { "type": "number", "description": "EUR percentage change" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["usd", "sar", "aed", "updatedAt"]
+    },
+    "statusReport": {
+      "title": "Status Report",
+      "description": "Crowdsourced reports for service availability",
+      "type": "object",
+      "properties": {
+        "locationId": { "type": "string" },
+        "locationName": { "type": "string" },
+        "type": { "type": "string", "enum": ["pharmacy", "bakery", "fuel"] },
+        "status": { "type": "string", "enum": ["available", "busy", "low", "closed"] },
+        "userEmail": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "approved": { "type": "boolean" }
+      },
+      "required": ["locationId", "locationName", "status", "timestamp", "approved"]
+    },
+    "notification": {
+      "title": "Notification",
+      "description": "History of broadcasted push notifications",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "sentBy": { "type": "string" },
+        "sentAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "body", "sentAt"]
+    },
+    "appUser": {
+      "title": "App User",
+      "description": "User profile and metadata",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "lastLogin": { "type": "string" },
+        "region": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/settings/rates": {
+      "schema": "exchangeRate",
+      "description": "Global singleton for currency rates"
+    },
+    "/reports/{reportId}": {
+      "schema": "statusReport",
+      "description": "Crowdsourced service status reports"
+    },
+    "/notifications/{notifId}": {
+      "schema": "notification",
+      "description": "Record of sent notifications"
+    },
+    "/users/{userId}": {
+      "schema": "appUser",
+      "description": "User profile records"
+    }
+  }
+}
