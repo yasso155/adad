@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
-import { auth } from '../lib/firebase';
+import { auth, db } from '../lib/firebase';
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -10,6 +10,7 @@ import {
   updateProfile,
   signInWithCredential 
 } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { Capacitor } from '@capacitor/core';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { cn } from '../lib/utils';
@@ -50,11 +51,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          lastLogin: serverTimestamp(),
+          email: userCredential.user.email
+        }, { merge: true });
       } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, {
           displayName: displayName
+        });
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          displayName: displayName,
+          email: email,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          role: 'STANDARD_USR'
         });
       }
       onClose();
@@ -84,10 +96,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
         const result = await FirebaseAuthentication.signInWithGoogle();
         if (result.credential?.idToken) {
           const credential = GoogleAuthProvider.credential(result.credential.idToken);
-          await signInWithCredential(auth, credential);
+          const userCredential = await signInWithCredential(auth, credential);
+          await setDoc(doc(db, 'users', userCredential.user.uid), {
+            displayName: userCredential.user.displayName,
+            email: userCredential.user.email,
+            photoURL: userCredential.user.photoURL,
+            lastLogin: serverTimestamp()
+          }, { merge: true });
         }
       } else {
-        await signInWithPopup(auth, new GoogleAuthProvider());
+        const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          displayName: userCredential.user.displayName,
+          email: userCredential.user.email,
+          photoURL: userCredential.user.photoURL,
+          lastLogin: serverTimestamp()
+        }, { merge: true });
       }
       onClose();
     } catch (err: any) {

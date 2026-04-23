@@ -163,14 +163,20 @@ export const AdminDashboard: React.FC = () => {
             });
           }
 
+          console.log('Attempting to update rates in Firestore:', finalRates);
           await setDoc(doc(db, 'settings', 'rates'), {
             ...finalRates,
             updatedAt: serverTimestamp(),
             updatedBy: user?.email
           }, { merge: true });
+          
           setSystemLogs(prev => [`Rates updated: US$ ${rates.usd}`, ...prev.slice(0, 5)]);
-        } catch (e) {
-          console.error(e);
+          setDbRates(finalRates); // Update local cache
+          alert('تم تحديث العملات بنجاح | Rates Updated Successfully');
+        } catch (e: any) {
+          console.error('Error updating rates:', e);
+          setSystemLogs(prev => [`Error: ${e.message}`, ...prev.slice(0, 5)]);
+          alert(`فشل التحديث: ${e.message} | Update Failed`);
         }
         setIsUpdating(false);
         setConfirmModal(prev => ({ ...prev, show: false }));
