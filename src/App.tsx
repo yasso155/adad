@@ -12,6 +12,7 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { SettingsMenu } from './components/SettingsMenu';
 import { Sun, MapPin, Search, Bell, Settings, User, ArrowLeft, Zap } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Logo } from './components/Logo';
 
 import { App as CapApp } from '@capacitor/app';
 
@@ -85,6 +86,9 @@ export default function App() {
                     </p>
                   </div>
                 </div>
+
+                <Logo size={32} showText={false} className="opacity-80" />
+
                 <div className="flex gap-2">
                   <button className="w-10 h-10 bg-white/5 rounded-full border border-white/5 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50">
                     <Bell size={16} />

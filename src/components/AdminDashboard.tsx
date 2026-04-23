@@ -14,6 +14,7 @@ import {
   TrendingUp, Activity, Clock, Globe, Users,
   BarChart3, LayoutDashboard, Search, Database, Zap
 } from 'lucide-react';
+import { Logo } from './Logo';
 import { cn, handleFirestoreError } from '../lib/utils';
 import firebaseConfig from '../../firebase-applet-config.json';
 import { 
@@ -293,15 +294,7 @@ export const AdminDashboard: React.FC = () => {
         "p-4 md:p-8"
       )}>
         <div className="mb-6 md:mb-14 flex items-center justify-between md:justify-start gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-white text-black rounded-lg md:rounded-2xl flex items-center justify-center">
-               <Settings size={18} className="md:w-[22px] md:h-[22px]" />
-            </div>
-            <div>
-              <h1 className="text-lg md:text-xl font-black tracking-tighter leading-none mb-1">CONTROL</h1>
-              <p className="text-[8px] md:text-[10px] text-white/30 uppercase tracking-[0.34em] font-black italic">Core v2.4</p>
-            </div>
-          </div>
+          <Logo size={40} />
           <button onClick={() => signOut(auth)} className="md:hidden p-2 bg-white/5 rounded-lg text-white/40">
              <LogOut size={18} />
           </button>
