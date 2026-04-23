@@ -57,6 +57,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
          setError(isAr ? 'البريد الإلكتروني مستخدم بالفعل' : 'Email is already in use');
       } else if (err.code === 'auth/weak-password') {
          setError(isAr ? 'كلمة المرور ضعيفة جداً' : 'Password is too weak');
+      } else if (err.code === 'auth/unauthorized-domain') {
+         setError(isAr ? 'هذا النطاق غير مصرح به. يرجى إضافة localhost في وحدة تحكم Firebase.' : 'This domain is not authorized. Please add localhost to Authorized Domains in Firebase Console.');
       } else {
          setError(err.message);
       }
@@ -72,7 +74,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
       await signInWithPopup(auth, new GoogleAuthProvider());
       onClose();
     } catch (err: any) {
-      if (err.code !== 'auth/cancelled-popup-request' && err.code !== 'auth/popup-closed-by-user') {
+      if (err.code === 'auth/unauthorized-domain') {
+        setError(isAr ? 'هذا النطاق غير مصرح به. يرجى إضافة localhost في وحدة تحكم Firebase.' : 'This domain is not authorized. Please add localhost to Authorized Domains in Firebase Console.');
+      } else if (err.code !== 'auth/cancelled-popup-request' && err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);
       }
     } finally {

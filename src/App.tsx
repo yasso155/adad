@@ -13,6 +13,8 @@ import { SettingsMenu } from './components/SettingsMenu';
 import { Sun, MapPin, Search, Bell, Settings, User, ArrowLeft, Zap } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { App as CapApp } from '@capacitor/app';
+
 type ViewState = 'dashboard' | 'solar' | 'map' | 'admin' | 'settings';
 
 export default function App() {
@@ -21,8 +23,21 @@ export default function App() {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => setUser(u));
-    return () => unsub();
-  }, []);
+    
+    // Handle Android/Capacitor back button
+    const backButtonHandler = CapApp.addListener('backButton', () => {
+      if (view !== 'dashboard') {
+        setView('dashboard');
+      } else {
+        CapApp.exitApp();
+      }
+    });
+
+    return () => {
+      unsub();
+      backButtonHandler.then(h => h.remove());
+    };
+  }, [view]);
 
   return (
     <div className="w-full min-h-screen bg-[#050505] text-white flex flex-col overflow-x-hidden overflow-y-auto font-sans select-none fill-neutral-300 relative">

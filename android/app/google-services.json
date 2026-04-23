@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "2004638021",
+    "project_id": "gen-lang-client-0834655921",
+    "storage_bucket": "gen-lang-client-0834655921.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2004638021:android:e6e619df80c94126c8c62c",
+        "android_client_info": {
+          "package_name": "com.adad.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2004638021-tsunt4dfd57bqroevovvuh6gddioa2v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu2utGYhVJ0gv4mcP2XbXEpCo_-jidUzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2004638021-tsunt4dfd57bqroevovvuh6gddioa2v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2004638021:android:fc0c249b96ec58a0c8c62c",
+        "android_client_info": {
+          "package_name": "com.masar_fly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2004638021-tsunt4dfd57bqroevovvuh6gddioa2v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu2utGYhVJ0gv4mcP2XbXEpCo_-jidUzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2004638021-tsunt4dfd57bqroevovvuh6gddioa2v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
