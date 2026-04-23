@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from './lib/firebase';
+import { auth, db } from './lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { ParallaxContainer, ParallaxLayer } from './components/Antigravity';
 import { CurrencyTicker } from './components/CurrencyTicker';
 import { GlassCard } from './components/GlassCard';
@@ -29,7 +30,23 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, u => setUser(u));
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
+      if (u) {
+        // Global User Sync: Ensure user exists in Firestore even if they signed in elsewhere
+        try {
+          await setDoc(doc(db, 'users', u.uid), {
+            displayName: u.displayName || 'Anonymous User',
+            email: u.email,
+            photoURL: u.photoURL,
+            lastSeen: serverTimestamp()
+          }, { merge: true });
+          console.log('User synced with database:', u.email);
+        } catch (err) {
+          console.error('Error syncing user:', err);
+        }
+      }
+    });
     
     // Handle Android/Capacitor back button
     const backButtonHandler = CapApp.addListener('backButton', () => {
