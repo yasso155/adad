@@ -63,7 +63,14 @@ export default function App() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full blur-sm opacity-50" />
                     <div className="relative w-10 h-10 bg-black rounded-full flex items-center justify-center border border-white/10 overflow-hidden">
                       {user ? (
-                        <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}&background=0D8ABC&color=fff&font-size=0.4`} alt="User" className="w-full h-full object-cover" />
+                        <img 
+                          src={user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email || 'User')}&background=0D8ABC&color=fff&font-size=0.4`} 
+                          alt="User" 
+                          className="w-full h-full object-cover" 
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=U&background=0D8ABC&color=fff`;
+                          }}
+                        />
                       ) : (
                         <User size={16} className="text-white/40" />
                       )}

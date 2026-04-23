@@ -117,11 +117,14 @@ export const SettingsMenu: React.FC<{ onClose: () => void, onAdminAccess?: () =>
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full -mr-16 -mt-16" />
               <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
               <div className={cn("flex items-center gap-6 relative z-10", lang === 'ar' ? "flex-row-reverse" : "flex-row")}>
-                <div className="w-20 h-20 rounded-[24px] border-2 border-blue-500/30 p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                <div className="w-20 h-20 rounded-[24px] border-2 border-blue-500/30 p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)] overflow-hidden">
                   <img 
-                    src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}&background=0D8ABC&color=fff`} 
+                    src={user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email || 'User')}&background=0D8ABC&color=fff`} 
                     alt="" 
                     className="w-full h-full rounded-[18px] object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=U&background=0D8ABC&color=fff`;
+                    }}
                   />
                 </div>
                 <div className={lang === 'ar' ? "text-right" : "text-left"}>
