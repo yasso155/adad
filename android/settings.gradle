@@ -1,0 +1,9 @@
+include ':app'
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+
+if (file('capacitor.settings.gradle').exists()) {
+    apply from: 'capacitor.settings.gradle'
+} else {
+    println "Warning: capacitor.settings.gradle not found. Run 'npx cap sync' to generate it."
+}

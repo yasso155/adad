@@ -1,0 +1,6 @@
+{
+  "name": "Adad Solar - Sudanese Solar Planner",
+  "description": "Plan your solar system in Sudan. Calculate load for local devices like Nasma coolers, estimate panel and battery requirements, and get quotes from local providers.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": []
+}

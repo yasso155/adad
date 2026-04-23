@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Adad </string>
+    <string name="title_activity_main">Adad </string>
+    <string name="package_name">com.adad.app</string>
+    <string name="custom_url_scheme">com.adad.app</string>
+</resources>
