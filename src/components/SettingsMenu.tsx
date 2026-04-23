@@ -12,6 +12,7 @@ import { TRANSLATIONS, Language } from '../constants/translations';
 import { DocumentViewer } from './DocumentViewer';
 import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '../constants/legal';
 import { AuthModal } from './AuthModal';
+import { Logo } from './Logo';
 
 interface SettingsItemProps {
   icon: React.ReactNode;
@@ -94,9 +95,12 @@ export const SettingsMenu: React.FC<{ onClose: () => void, onAdminAccess?: () =>
       {/* Header */}
       <div className="p-8 pb-4 flex items-center justify-between border-b border-white/5 relative z-10 bg-black/20">
         <div className={lang === 'ar' ? "text-right" : "text-left"}>
-          <h2 className="text-4xl font-black tracking-tighter italic uppercase underline decoration-blue-500 underline-offset-8">
-            {t.settings}
-          </h2>
+          <div className="flex items-center gap-4 mb-2">
+            <Logo size={32} showText={false} />
+            <h2 className="text-4xl font-black tracking-tighter italic uppercase underline decoration-blue-500 underline-offset-8">
+              {t.settings}
+            </h2>
+          </div>
           <p className="text-[10px] text-white/20 font-black uppercase tracking-[0.4em] mt-3">
             {t.systemConfig}
           </p>

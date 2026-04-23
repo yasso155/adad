@@ -21,6 +21,8 @@ interface AuthModalProps {
   lang: Language;
 }
 
+import { Logo } from './Logo';
+
 export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [displayName, setDisplayName] = useState('');
@@ -141,9 +143,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
         </button>
 
         <div className="p-8 pb-6">
-          <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center mb-6">
-            <User size={24} className="text-blue-500" />
-          </div>
+          <Logo size={48} showText={false} className="mb-6" />
           
           <h2 className="text-2xl font-black text-white mb-2 tracking-tighter">
             {isLogin ? (isAr ? 'أهلاً بعودتك' : 'Welcome Back') : (isAr ? 'إنشاء حساب' : 'Create Account')}

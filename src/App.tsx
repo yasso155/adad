@@ -21,6 +21,12 @@ type ViewState = 'dashboard' | 'solar' | 'map' | 'admin' | 'settings';
 export default function App() {
   const [view, setView] = useState<ViewState>('dashboard');
   const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitializing(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => setUser(u));
@@ -46,6 +52,49 @@ export default function App() {
       <div className="fixed inset-0 bg-grid-white bg-grid-pattern opacity-30 pointer-events-none" />
       <div className="fixed inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505] pointer-events-none" />
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050505_100%)] pointer-events-none" />
+
+      <AnimatePresence>
+        {isInitializing && (
+          <motion.div
+            key="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] bg-[#050505] flex flex-col items-center justify-center"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="flex flex-col items-center gap-6"
+            >
+              <div className="relative">
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute -inset-8 bg-blue-500/20 rounded-full blur-3xl"
+                />
+                <Logo size={120} showText={false} />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="flex flex-col items-center"
+              >
+                <h1 className="text-5xl font-black tracking-tighter text-white mb-2">adad</h1>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                  <p className="text-[10px] text-white/30 uppercase tracking-[0.5em] font-black">Sudanese Solar Hub</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         {view === 'dashboard' ? (
