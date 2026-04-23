@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import { auth } from '../lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  updateProfile,
+  signInWithCredential 
+} from 'firebase/auth';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { cn } from '../lib/utils';
 import { Language, TRANSLATIONS } from '../constants/translations';
 
@@ -71,7 +80,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, lang }) => {
     setLoading(true);
     setError('');
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      if (Capacitor.isNativePlatform()) {
+        const result = await FirebaseAuthentication.signInWithGoogle();
+        if (result.credential?.idToken) {
+          const credential = GoogleAuthProvider.credential(result.credential.idToken);
+          await signInWithCredential(auth, credential);
+        }
+      } else {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+      }
       onClose();
     } catch (err: any) {
       if (err.code === 'auth/unauthorized-domain') {
