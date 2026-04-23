@@ -880,6 +880,74 @@ export const AdminDashboard: React.FC = () => {
               </motion.section>
             )}
 
+            {activeTab === 'users' && (
+              <motion.section 
+                key="users" 
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -20 }}
+                className="max-w-6xl mx-auto space-y-10"
+              >
+                <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    <div>
+                        <div className="flex items-center gap-3 mb-2">
+                            <span className="px-2 py-1 bg-purple-500/10 text-purple-500 text-[9px] font-black rounded uppercase tracking-widest border border-purple-500/20">Identity</span>
+                            <h2 className="text-5xl font-black tracking-tighter italic uppercase">Authenticated Nodes</h2>
+                        </div>
+                        <p className="text-white/40 text-sm font-medium italic">Management of all authorized entities in the network.</p>
+                    </div>
+                </header>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {appUsers.map((appUser, idx) => (
+                    <motion.div
+                      key={appUser.id}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.03 }}
+                      className="bg-[#0d0d0d] border border-white/5 p-6 rounded-[32px] hover:bg-white/[0.02] transition-all flex items-center gap-4 group"
+                    >
+                      <div className="relative">
+                        <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/10 bg-white/5">
+                          <img 
+                            src={appUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(appUser.displayName || appUser.email || 'U')}&background=random&color=fff`} 
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        {appUser.role === 'ADMIN' && (
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full border-2 border-[#0d0d0d] flex items-center justify-center">
+                            <ShieldCheck size={10} className="text-white" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-black text-white truncate tracking-tight">{appUser.displayName || 'Unknown Node'}</h4>
+                        <p className="text-[10px] text-white/30 font-bold truncate uppercase">{appUser.email}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                           <span className={cn(
+                             "text-[8px] font-black uppercase px-1.5 py-0.5 rounded",
+                             appUser.role === 'ADMIN' ? "bg-blue-500/20 text-blue-400" : "bg-white/10 text-white/40"
+                           )}>
+                             {appUser.role || 'USER'}
+                           </span>
+                           {appUser.lastLogin && (
+                             <span className="text-[8px] text-white/20 font-medium">
+                               Seen: {new Date(appUser.lastLogin?.seconds * 1000).toLocaleDateString()}
+                             </span>
+                           )}
+                        </div>
+                      </div>
+                      <button className="p-2 text-white/5 opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500">
+                        <Trash2 size={16} />
+                      </button>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.section>
+            )}
+
+
             {activeTab === 'notifications' && (
                <motion.section 
                 key="notif" 
